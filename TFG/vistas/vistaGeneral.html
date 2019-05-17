@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<?php
+	//Sesion
+    session_start ();
+    if(isset($_SESSION["logeado"])){
+		header("Location: ../index.php");
+	}
+?>
+<html>
+
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {
+      height: 1500px
+    }
+
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+
+      .row.content {
+        height: auto;
+      }
+    }
+
+    #foto{
+      width: 500px;
+      height: 500px;
+      border: 1px solid black;
+      margin-top: 25px;
+      margin-bottom: 25px;
+    }
+  </style>
+</head>
+<body>
+
+    <div id="iconos">
+
+    </div>
+  <div class="container-fluid">
+    
+      <div class="col-sm-2 sidenav">
+        <h4>Nozzleprint3D</h4>
+        <ul class="nav nav-pills nav-stacked">
+          <li class="active" id="perfil"><a href="../vistas/vistaUsuario.html">Perfil</a></li>
+        </ul><br>
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar..">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button">
+              <span class="glyphicon glyphicon-search"></span>
+            </button>
+          </span>
+        </div>
+      </div>  
+   
+   </div>
+   
+           <div class="createpost" >
+            <form method="post" action="../BBDD/upload.php" enctype="multipart/form-data">
+                <h2>Crear un Post</h2>
+                <hr>
+                <span style="float:right; color:black">
+                <input type="checkbox" id="public" name="public">
+                <label for="public">Publico</label>
+                </span>
+                Texto <span style="display:none;"> *No puedes dejar a tu publicación sin un texto</span><br>
+                <textarea rows="6" name="caption"></textarea>
+                <center><img src="" id="thumbnil" alt="image" style="max-width:580px; "></center>
+	
+	<input type="file" accept="image/*"  name="fileToUpload" id="fileToUpload" onchange="showMyImage(this)" />
+ <br/>
+	
+    <input type="submit" value="Subir Imagen" name="post">
+                </div>
+            </form>
+			
+        </div>
+		<img id="output"/>
+<script>
+ function showMyImage(fileInput) {
+        var files = fileInput.files;
+        for (var i = 0; i < files.length; i++) {           
+            var file = files[i];
+            var imageType = /image.*/;     
+            if (!file.type.match(imageType)) {
+                continue;
+            }           
+            var img=document.getElementById("thumbnil");            
+            img.file = file;    
+            var reader = new FileReader();
+            reader.onload = (function(aImg) { 
+                return function(e) { 
+                    aImg.src = e.target.result; 
+                }; 
+            })(img);
+            reader.readAsDataURL(file);
+        }    
+    }
+</script>
+
+</body>
+
+  <footer class="container-fluid">
+    <p>Copyright Nozzleprint3D</p>
+  </footer>
+  
+</html>
