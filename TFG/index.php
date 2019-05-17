@@ -3,7 +3,7 @@
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <title>Nozzleprint3D</title>
