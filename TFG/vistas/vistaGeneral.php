@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 
 <?php
+  require_once "../BBDD/model.php";
+  require_once "../BBDD/config.php";
+
+  $conexion = new Model(Config::$host, Config::$user, Config::$pass, Config::$nombreBase);
 	//Sesion
     session_start ();
     if(!isset($_SESSION["logeado"])){
@@ -66,7 +70,22 @@
     <div class="col-sm-9">
       <h4><small>RECENT POSTS</small></h4>
       <hr>
-      <h2>I Love Food</h2>
+      <?php
+      //recogemos los amigos del usuario de la sesion
+        $amigos = $conexion->amigo($_SESSION['id_usuario']);
+        $nombresAmigos = $conexion->sacarNombre($amigos);
+        foreach ($nombresAmigos as $nombre) {
+          $cosasPost = $conexion->mostrarPost($nombre['id_usuario']);
+          foreach($cosasPost as $cosaPost){
+            if($cosaPost['foto_post'] != null || $cosaPost['descripcion'] != null){
+              echo "<p>".$nombre['nombre_usuario']."</p>";
+              echo "<img src='../data/images/posts/".$cosaPost['foto_post']."' alt='imagen'>";
+              echo "<p>".$cosaPost['descripcion']."</p>";
+            }
+          }
+        }
+      ?>
+      <p>
       <h5><span class="glyphicon glyphicon-time"></span> Post by Jane Dane, Sep 27, 2015.</h5>
       <h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>
       <p>Food is my passion. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>

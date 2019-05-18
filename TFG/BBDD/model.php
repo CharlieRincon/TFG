@@ -188,65 +188,34 @@
 		//////////////////VISUALIZACION DE POST///////////////////////////
 		/// Sacara los Amigos //1 
         public function amigo($id_usuarioSesion){
-            $sql = "SELECT id_amigo FROM amigos WHERE id_usuario = '$id_usuarioSesion'";
+            $sql = "SELECT id_amigo FROM amigos WHERE id_usuario = '$id_usuarioSesion' ORDER BY RAND()";
             $amigos = $this->devolverConsultaArray($sql);
-			
-			print ( $amigos);
-			
             return $amigos;
         }
 		
-		//////////////////Visualizar s por Categorias ////////////////////////
-		//Devolvera la lista de todos los amigos separados por ;
-		//  2;
 		
-		// 1 -   "foto" + "c//" ; 2 "fit + sds " ; 
-		
-		
-        public function mostrarPost($amigos){
-			$total;
-			$contador = 0;
-			while ($fila = $amigos->fetch_row()) {
-				$fila[$contador];
-				$contador = contador + 1;
-				$sql = "SELECT descripcion , foto_post FROM post WHERE id_propietario = '$fila'";
-				$total =  $total + ";" +$fila + " "+ $this->devolverConsultaArray($sql) ;
-				
-				print ( $total);
-			}
-
-            return $total;
+        public function mostrarPost($fila){
+            $post;
+			$sql = "SELECT id_post, descripcion , foto_post FROM post WHERE id_propietario = '$fila' ORDER BY id_post DESC";
+            $post = $this->devolverConsultaArray($sql);
+            return $post;
         }
 		//Sacar el nombre del id
 		// 3;
 		public function sacarNombre($amigos){
-			$nombre;
-			while ($fila = $amigos->fetch_row()) {
-				$fila[$contador];
-				$contador = contador + 1;
-				$sql = "SELECT  nombre_usuario FROM usuarios WHERE id_usuario = '$fila'";
-				
-				$nombre = $nombre + ";" +$fila +" " + $this->devolverConsultaArray($sql);
-				
-				print ( $nombre);
+            $nombre;
+            $nombresArray = [];
+			foreach($amigos as $fila) {
+				$id = $fila[0];
+				$sql = "SELECT id_usuario, nombre_usuario FROM usuarios WHERE id_usuario = '$id'";
+                $resultadoConsulta = $this->ejecutarConsulta($sql);
+                $resultado = $resultadoConsulta->get_result();
+                $nombre = $resultado->fetch_array();
+				array_push($nombresArray, $nombre);
 			}
-            return $nombre;
+            return $nombresArray;
         }
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
+
 
 		//////////////////Busqueda de Post // Tendra que ser Por usuario? ////////////////////////
         public function visualizarProductosBusqueda($busqueda){
