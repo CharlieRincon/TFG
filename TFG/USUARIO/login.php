@@ -6,7 +6,7 @@
     session_start();
     //Iniciar la sesion logeada cargar la VisionGeneral
     if (isset($_SESSION['logeado'])) {
-        header("Location: ../vistas/vistaGeneral.html");
+        header("Location: ../vistas/vistaGeneral.php");
     }
     //Se recoge los datos del formulari y se recogen en la variable
     $correo = $_POST['correo'];
