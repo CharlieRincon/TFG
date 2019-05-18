@@ -183,21 +183,72 @@
             }
         }
 
+		
+		
+		
 		//////////////////////////////////////////////////////////////////
 		//////////////////VISUALIZACION DE POST///////////////////////////
-		///HABRA QUE SACARLOS POR POST O POR AMIGOS O EN EL CASO DE QUE SEA EL TUYO CREAR OTRO
-        public function visualizarProductos(){
-            $sql = "SELECT * FROM productos";
-            $productos = $this->devolverConsultaArray($sql);
-            return $productos;
+		/// Sacara los Amigos //1 
+        public function amigo($id_usuarioSesion){
+            $sql = "SELECT id_amigo FROM amigos WHERE id_usuario = '$id_usuarioSesion'";
+            $amigos = $this->devolverConsultaArray($sql);
+			
+			print ( $amigos);
+			
+            return $amigos;
         }
 		
-		//////////////////Visualizar Productos por Categorias ////////////////////////
-        public function visualizarProductosCategoria($categoria){
-            $sql = "SELECT * FROM productos WHERE categoria_producto = '$categoria'";
-            $productos = $this->devolverConsultaArray($sql);
-            return $productos;
+		//////////////////Visualizar s por Categorias ////////////////////////
+		//Devolvera la lista de todos los amigos separados por ;
+		//  2;
+		
+		// 1 -   "foto" + "c//" ; 2 "fit + sds " ; 
+		
+		
+        public function mostrarPost($amigos){
+			$total;
+			$contador = 0;
+			while ($fila = $amigos->fetch_row()) {
+				$fila[$contador];
+				$contador = contador + 1;
+				$sql = "SELECT descripcion , foto_post FROM post WHERE id_propietario = '$fila'";
+				$total =  $total + ";" +$fila + " "+ $this->devolverConsultaArray($sql) ;
+				
+				print ( $total);
+			}
+
+            return $total;
         }
+		//Sacar el nombre del id
+		// 3;
+		public function sacarNombre($amigos){
+			$nombre;
+			while ($fila = $amigos->fetch_row()) {
+				$fila[$contador];
+				$contador = contador + 1;
+				$sql = "SELECT  nombre_usuario FROM usuarios WHERE id_usuario = '$fila'";
+				
+				$nombre = $nombre + ";" +$fila +" " + $this->devolverConsultaArray($sql);
+				
+				print ( $nombre);
+			}
+            return $nombre;
+        }
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
 
 		//////////////////Busqueda de Post // Tendra que ser Por usuario? ////////////////////////
         public function visualizarProductosBusqueda($busqueda){
