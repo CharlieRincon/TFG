@@ -37,9 +37,14 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "El fichero ". basename( $_FILES["fileToUpload"]["name"]). " Subio";
+		
+		//REALIZAR UN INSERT de LA RUTA EN EL USUARIO
+		
+		
     } else {
         echo "No pudo subirse.";
     }
 }
 //https://www.w3schools.com/php/php_file_upload.asp
 ?>
+

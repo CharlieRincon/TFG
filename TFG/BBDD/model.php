@@ -101,14 +101,16 @@
             }
         }
 
-		////////////////////INSERTAR POST///////////////////////////////
+		////////////////////INSERTAR POST/////////////////////////////// AÑADIR a UPDATe.PHP
 		//esto insertara un post en este caso tendra una id , una id de propiertario, categoria , precio , existencia , foto
-        public function insertarPost($id, $id_propietario, $categoria, $precio, $existencias, $foto){
-			//Cambiar lo de PRODUCTOS -- PARA INSERTAR POST
-            $consulta = "INSERT INTO productos (id_producto, id_propietario_producto, categoria_producto, precio_producto, existencias_producto, foto_producto) VALUES ('$id', '$id_propietario', '$categoria', $precio, $existencias, '$foto')";
+        public function insertarPost($id_propietario, $descripcion, $foto_post){
+			//PARA INSERTAR POST
+            $consulta = "INSERT INTO post (descripcion, foto_post) VALUES ('$descripcion', '$foto_post') WHERE id_Propietario = '$id_propietario'";
             $resultado = $this->ejecutarConsulta($consulta);
         }
 
+
+		
 	    ////////////////////EDITAR POST///////////////////////////////
 		//Editar Articulo POST 
         public function editarArticulo($codigo, $id, $id_propietario, $categoria, $precio, $existencias, $foto){

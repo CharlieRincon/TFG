@@ -35,8 +35,12 @@ if ($uploadOk == 0) {
     echo "No se subio.";
 
 } else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $	target_file)) {
         echo "El fichero ". basename( $_FILES["fileToUpload"]["name"]). " Subio";
+		
+		//REALIZAR UN INSERT de LA RUTA EN EL USUARIO  // target_file
+		
+		
     } else {
         echo "No pudo subirse.";
     }
