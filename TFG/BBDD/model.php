@@ -140,10 +140,8 @@
 				//Se pilla la columna de la contraseña y si coincide con la pass pasada Se logueara
                 if ($columnas['pass_usuario'] == $passwd) {
                     $_SESSION['logeado'] = $correo;
-					//Se llama  a la "CESTA  COSA QUE HABRA QUE CAMBIAR"
-                    //$_SESSION['cesta'] = new Cesta();
-					// Y la cabecera de Index .. HABRA QUE CAMBIARLO
-                    header("Location: ../vistas/vistaGeneral.html");
+					$_SESSION['id_usuario'] = $columnas['id_usuario'];
+                    header("Location: ../vistas/vistaGeneral.php");
                 } else {
 					//En el caso de que el usuario no coincida con la contraseña  no sera valido
                     echo "<br/><h2>La contraseña es incorrecta, por favor introduzca una contraseña válida.</h2>";
