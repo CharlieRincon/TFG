@@ -142,7 +142,10 @@
 				//Se pilla la columna de la contraseña y si coincide con la pass pasada Se logueara
                 if ($columnas['pass_usuario'] == $passwd) {
                     $_SESSION['logeado'] = $correo;
-					$_SESSION['id_usuario'] = $columnas['id_usuario'];
+                    $_SESSION['id_usuario'] = $columnas['id_usuario'];
+                    $_SESSION['nombre'] = $columnas['nombre'];
+                    $_SESSION['apellidos'] = $columnas['apellidos'];
+                    $_SESSION['nombreCompleto'] = $columnas['nombre']+" "+$columnas['apellidos'];
                     header("Location: ../vistas/vistaGeneral.php");
                 } else {
 					//En el caso de que el usuario no coincida con la contraseña  no sera valido
