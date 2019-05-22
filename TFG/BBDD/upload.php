@@ -1,8 +1,25 @@
 <?php
+
+require_once "model.php";
+require_once "config.php";
+
+  $conexion = new Model(Config::$host, Config::$user, Config::$pass, Config::$nombreBase);
+    //Sesion
+    session_start ();
+    if(!isset($_SESSION["logeado"])){
+        header("Location: ../index.php");
+    }
+
+
+
+
+
 $target_dir = "../data/images/posts/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+$des = $_POST['descripcion'];
+
 
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -35,11 +52,12 @@ if ($uploadOk == 0) {
     echo "No se subio.";
 
 } else {
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $	target_file)) {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "El fichero ". basename( $_FILES["fileToUpload"]["name"]). " Subio";
-		
+
+		$nombre = basename( $_FILES["fileToUpload"]["name"]);
 		//REALIZAR UN INSERT de LA RUTA EN EL USUARIO  // target_file
-		
+		insertarPost($_SESSION['id_usuario'], $des, $nombre);
 		
     } else {
         echo "No pudo subirse.";
