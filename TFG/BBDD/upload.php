@@ -10,9 +10,7 @@ require_once "config.php";
         header("Location: ../index.php");
     }
 
-
-
-
+    $id = $_SESSION['id_usuario'];
 
 $target_dir = "../data/images/posts/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -53,12 +51,10 @@ if ($uploadOk == 0) {
 
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "El fichero ". basename( $_FILES["fileToUpload"]["name"]). " Subio";
-
 		$nombre = basename( $_FILES["fileToUpload"]["name"]);
-		//REALIZAR UN INSERT de LA RUTA EN EL USUARIO  // target_file
-		insertarPost($_SESSION['id_usuario'], $des, $nombre);
-		
+		//REALIZAR UN INSERT de LA RUTA EN EL USUARIO
+        $conexion->insertarPost($id, $des, $nombre);
+		header("Location: ../vistas/vistaGeneral.php");
     } else {
         echo "No pudo subirse.";
     }
