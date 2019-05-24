@@ -105,12 +105,24 @@
 		//esto insertara un post en este caso tendra una id , una id de propiertario, categoria , precio , existencia , foto
         public function insertarPost($id_propietario, $descripcion, $foto_post){
 			//PARA INSERTAR POST
-            $consulta = "INSERT INTO post (descripcion, foto_post) VALUES ('$descripcion', '$foto_post') WHERE id_Propietario = '$id_propietario'";
+            $consulta = "INSERT INTO post (id_propietario, descripcion, foto_post) VALUES ('$id_propietario', '$descripcion', '$foto_post')";
             $resultado = $this->ejecutarConsulta($consulta);
         }
-
-
 		
+		/////Busqueda por usuario ////
+		
+		//esto insertara perfil foto
+        public function insertarPerfil($id_propietario, $fotoPerfil){
+			//PARA INSERTAR POST
+            $consulta = "UPDATE usuarios SET foto_perfil='$fotoPerfil' WHERE id_usuario = '$id_propietario'";
+            $resultado = $this->ejecutarConsulta($consulta);
+        }
+		//MODIFICAR PERFIL
+		public function modificarPerfil($id,$correo,$passwd,$numero,$impresora){
+			$consulta = "Update usuarios SET correo_usuario='$correo' ,pass_usuario='$passwd,telefono = '$numero',impresora ='$impresora' WHERE id_usuario = '$id' "
+			$resultado = $this->ejecutarConsulta($consulta);
+		}
+
 	    ////////////////////EDITAR POST///////////////////////////////
 		//Editar Articulo POST 
         public function editarArticulo($codigo, $id, $id_propietario, $categoria, $precio, $existencias, $foto){
@@ -123,7 +135,7 @@
 		//Borrara un POST
         public function borrarArticulo($codigo){
 			//Cambiar lo de PRODUCTOS -- PARA INSERTAR POST
-            $consulta = "DELETE FROM productos WHERE codigo_producto = $codigo";
+            $consulta = "DELETE FROM post WHERE id_propietario = $codigo";
             $resultado = $this->ejecutarConsulta($consulta);
         }
 
