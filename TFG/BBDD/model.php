@@ -108,9 +108,21 @@
             $consulta = "INSERT INTO post (id_propietario, descripcion, foto_post) VALUES ('$id_propietario', '$descripcion', '$foto_post')";
             $resultado = $this->ejecutarConsulta($consulta);
         }
-
-
 		
+		/////Busqueda por usuario ////
+		
+		//esto insertara perfil foto
+        public function insertarPerfil($id_propietario, $fotoPerfil){
+			//PARA INSERTAR POST
+            $consulta = "UPDATE usuarios SET foto_perfil='$fotoPerfil' WHERE id_usuario = '$id_propietario'";
+            $resultado = $this->ejecutarConsulta($consulta);
+        }
+		//MODIFICAR PERFIL
+		public function modificarPerfil($id,$correo,$passwd,$numero,$impresora){
+			$consulta = "Update usuarios SET correo_usuario='$correo' ,pass_usuario='$passwd,telefono = '$numero',impresora ='$impresora' WHERE id_usuario = '$id' "
+			$resultado = $this->ejecutarConsulta($consulta);
+		}
+
 	    ////////////////////EDITAR POST///////////////////////////////
 		//Editar Articulo POST 
         public function editarArticulo($codigo, $id, $id_propietario, $categoria, $precio, $existencias, $foto){

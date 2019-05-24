@@ -1,8 +1,29 @@
 <?php
-$target_dir = "../data/images/profile/";
+
+require_once "model.php";
+require_once "config.php";
+
+  $conexion = new Model(Config::$host, Config::$user, Config::$pass, Config::$nombreBase);
+    //Sesion
+    session_start ();
+    if(!isset($_SESSION["logeado"])){
+        header("Location: ../index.php");
+    }
+
+    $id = $_SESSION['id_usuario'];
+
+$correo = $_POST['correo'];
+$passwd = $_POST['passwd'];
+$nombre_usuario = $_POST['nombre_usuario'];
+$numero = $_POST['numero'];
+$impresora = $_POST['impresora'];	
+
+$target_dir = "../data/images/perfil/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+$des = $_POST['descripcion'];
+
 
 if(isset($_POST["submit"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
@@ -36,15 +57,14 @@ if ($uploadOk == 0) {
 
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "El fichero ". basename( $_FILES["fileToUpload"]["name"]). " Subio";
-		
+		$nombre = basename( $_FILES["fileToUpload"]["name"]);
 		//REALIZAR UN INSERT de LA RUTA EN EL USUARIO
-		
-		
+        $conexion->insertarPerfil($id,$nombre);
+		$conexion->modificarPerfil($id,$correo,$passwd,$numero,$impresora);
+		header("Location: ../vistas/vistaGeneral.php");
     } else {
         echo "No pudo subirse.";
     }
 }
 //https://www.w3schools.com/php/php_file_upload.asp
 ?>
-

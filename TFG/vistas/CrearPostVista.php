@@ -25,8 +25,6 @@
       <input type="file" accept="image/" name="fileToUpload" id="fileToUpload" onchange="showMyImage(this)" />
       <br />
 		
-		
-		
       <input type="submit" value="Subir Imagen" name="post">
   </div>
   </form>
