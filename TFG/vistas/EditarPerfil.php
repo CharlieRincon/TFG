@@ -2,7 +2,7 @@
 	//Sesion
     session_start ();
 
-    if(isset($_SESSION["logeado"])){
+    if(!isset($_SESSION["logeado"])){
 		header("Location: ../index.php");
 	}
 ?>
@@ -50,8 +50,6 @@
             <label for="numero">Telefono:*</label><br/>
             <input type="tel" name="numero" id="numero" required maxlength="9"/><br/><br/>
 
-            <h2>Información Adicional</h2><br>
-
             <label for="impresora">Impresora:</label><br/>
             <input type="text" name="impresora" id="impresora"/><br/><br/>
 			
@@ -61,7 +59,7 @@
       <hr>
       <span style="float:right; color:black">
       </span>
-      <center><img src="" id="thumbnil" alt="image" style="max-width:580px; "></center>
+      <center><img src="" id="thumbnil" style="max-width:580px; "></center>
 
       <input type="file" accept="image/" name="fileToUpload" id="fileToUpload" onchange="showMyImage(this)" />
       <br />

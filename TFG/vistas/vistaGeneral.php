@@ -48,7 +48,11 @@
   </style>
 </head>
 <body>
-
+<div> 
+    <?php
+        include "../Inc/nav2.inc";
+    ?>
+</div>
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-3 sidenav">
@@ -56,9 +60,9 @@
         echo "<p>".$_SESSION['nombre']." ".$_SESSION['apellidos']."</p>";
       ?>
       <ul class="nav nav-pills nav-stacked">
-        <li id="perfil"><a href="../vistas/vistaUsuario.html">Perfil</a></li>
+        <li id="perfil"><a href="../vistas/vistaUsuario.php">Perfil</a></li>
         <li id="perfil"><a href="../vistas/CrearPostVista.php">Subir foto</a></li>
-		<li id="perfil"><a href="../vistas/EditarPerfil.php">Editar Perfil</a></li>
+		    <li id="perfil"><a href="../vistas/EditarPerfil.php">Editar Perfil</a></li>
       </ul><br>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search Blog..">

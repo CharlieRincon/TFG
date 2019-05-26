@@ -119,7 +119,7 @@
         }
 		//MODIFICAR PERFIL
 		public function modificarPerfil($id,$correo,$passwd,$numero,$impresora){
-			$consulta = "Update usuarios SET correo_usuario='$correo' ,pass_usuario='$passwd,telefono = '$numero',impresora ='$impresora' WHERE id_usuario = '$id' "
+			$consulta = "Update usuarios SET correo_usuario='$correo' ,pass_usuario='$passwd,telefono = '$numero',impresora ='$impresora' WHERE id_usuario = '$id' ";
 			$resultado = $this->ejecutarConsulta($consulta);
 		}
 
