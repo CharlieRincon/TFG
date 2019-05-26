@@ -74,20 +74,31 @@
             include "../Inc/nav2.inc";
         ?>
     </div>
+    <?php
+        $consulta = "SELECT * FROM post WHERE id_propietario=".$_SESSION['id_usuario']."";
+        $resultadoPaginacion = $conexion->devolverConsultaArray($consulta);
+        $consulta2 = "SELECT foto_perfil FROM usuarios WHERE id_usuario=".$_SESSION['id_usuario']."";
+        $resultadoConsulta = $conexion->ejecutarConsulta($consulta2);
+        $resultado = $resultadoConsulta->get_result();
+        $productos = $resultado->fetch_array();
+    ?>
     <div>
         <div class="container-fluid text-center" id="fotoPerfil">
-            <img src="../img/Foto-de-Perfil-en-WhatsApp-1024x768.jpg"
-                style="width: 200px; height:200px; border-radius: 250px;">
+        <?php
+        if($productos['foto_perfil']==null){
+            echo "<img src='../img/Foto-de-Perfil-en-WhatsApp-1024x768.jpg' style='width: 200px; height:200px; border-radius: 250px;'>";
+        }else{
+            echo "<img src='../data/images/perfil/".$productos['foto_perfil']."' style='width: 200px; height:200px; border-radius: 250px;'>";
+        }
+        ?>
         </div>
     </div>
     <?php
-    $consulta = "SELECT * FROM post WHERE id_propietario=".$_SESSION['id_usuario']."";
-    $resultadoPaginacion = $conexion->devolverConsultaArray($consulta);
     echo "<div class='container'>    
             <div class='row'>";
     foreach($resultadoPaginacion as $post){
     echo "<div class='col-sm-4'>
-            <img src='../data/posts/eliminar.png' alt='no se ve la mierda de foto'>
+            <img src='../data/images/posts/".$post['foto_post']."' alt='no se puede ver la foto' style='width: 300px; height:300px; margin-top:50px;'>
     </div>";
 
     }

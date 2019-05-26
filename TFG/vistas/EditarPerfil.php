@@ -36,7 +36,7 @@
 	<!-- FORMULARIO DE REGISTRO -->
     <div id="registro">
         <h1>Editar Usuario</h1>
-        <form action="uploadPerfil.php" method="POST" enctype="multipart/form-data">
+        <form action="../BBDD/uploadPerfil.php" method="POST" enctype="multipart/form-data">
 		
             <label for="id_correo">Correo:*</label><br/>
             <input type="text" name="correo" id="id_correo" required /><br/><br/>

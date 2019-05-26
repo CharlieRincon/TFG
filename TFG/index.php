@@ -1,4 +1,4 @@
-<?php
+﻿<?php
     session_start ();
 
 ?>
@@ -70,7 +70,89 @@
 </head>
 
 <body>
-
+    <?php 
+require 'functions/functions.php';
+session_start();
+if (isset($_SESSION['user_id'])) {
+    header("location:home.php");
+}
+session_destroy();
+session_start();
+ob_start(); 
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NozzlePrint3D</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <style>
+        .container{
+            margin: 40px auto;
+            width: 400px;
+        }
+        .content {
+            padding: 30px;
+            background-color: white;
+            box-shadow: 0 0 5px #4267b2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenido a NozzlePrint</h1>
+    <div class="container">
+        <div class="tab">
+            <button class="tablink active" onclick="openTab(event,'signin')" id="link1">Login</button>
+            <button class="tablink" onclick="openTab(event,'signup')" id="link2">Registrarse</button>
+        </div>
+        <div class="content">
+            <div class="tabcontent" id="signin">
+                <form method="post" onsubmit="return validateLogin()">
+                    <label>Email<span>*</span></label><br>
+                    <input type="text" name="useremail" id="loginuseremail">
+                    <div class="required"></div>
+                    <br>
+                    <label>Pass<span>*</span></label><br>
+                    <input type="password" name="userpass" id="loginuserpass">
+                    <div class="required"></div>
+                    <br><br>
+                    <input type="submit" value="Login" name="login">
+                </form>
+            </div>
+            <div class="tabcontent" id="signup">
+                <form method="post" onsubmit="return validateRegister()">
+                    <!--Package One-->
+                    <h2>Información Requerida</h2>
+                    <hr>
+                    <!--First Name-->
+                    <label>Nombre<span>*</span></label><br>
+                    <input type="text" name="userfirstname" id="userfirstname">
+                    <div class="required"></div>
+                    <br>
+                    <!--Last Name-->
+                    <label>Apellido<span>*</span></label><br>
+                    <input type="text" name="userlastname" id="userlastname">
+                    <div class="required"></div>
+                    <br>
+                    <!--Nickname-->
+                    <label>Nick</label><br>
+                    <input type="text" name="usernickname" id="usernickname">
+                    <div class="required"></div>
+                    <br>
+                    <!--Password-->
+                    <label>Contraseña<span>*</span></label><br>
+                    <input type="password" name="userpass" id="userpass">
+                    <div class="required"></div>
+                    <br>
+                    <!--Confirm Password-->
+                    <label>Contraseña<span>*</span></label><br>
+                    <input type="password" name="userpassconfirm" id="userpassconfirm">
+                    <div class="required"></div>
+                    <br>
+                    <!--Email-->
+                    <label>Email<span>*</span></label><br>
+                    <input type="text" name="useremail" id="useremail">
+                    <div class="required"></div>
+                    <br><br>
     <nav class="navbar navbar">
         <div class="container-fluid">
             <div class="navbar-header">

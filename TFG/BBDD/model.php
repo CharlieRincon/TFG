@@ -110,6 +110,22 @@
         }
 		
 		/////Busqueda por usuario ////
+        public function busquedaNombre($Busqueda){
+
+            $busqueda = explode(" ", $Busqueda);
+            $nombre = $busqueda[0];
+            $apellido = $busqueda[1];
+
+            if (($apellido === NULL)&&($nombre != null)){
+                $consulta = "SELECT nombre,apellidos,foto_perfil FROM Usuarios WHERE nombre LIKE '$nombre'";
+            }else if (($nombre === NULL)&&($apellido === NULL)){
+                $consulta = "SELECT nombre,apellidos,foto_perfil FROM Usuarios";
+            }else if (($nombre != NULL)&&($apellido != NULL)){ 
+                $consulta = "SELECT nombre,apellidos,foto_perfil FROM Usuarios WHERE nombre LIKE '$nombre' AND apellidos LIKE '$apellidos' ";
+            }
+            $resultado = $this->devolverConsultaArray($sql);
+            return $resultado;
+        }
 		
 		//esto insertara perfil foto
         public function insertarPerfil($id_propietario, $fotoPerfil){
