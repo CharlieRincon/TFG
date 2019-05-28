@@ -153,43 +153,80 @@ ob_start();
                     <input type="text" name="useremail" id="useremail">
                     <div class="required"></div>
                     <br><br>
-    <nav class="navbar navbar">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand logo" href="#">Nozzleprint3D</a>
-            </div>
-            <div class="collapse navbar-collapse" id="myNavbar">
-                <ul class="nav navbar-nav navbar-right">
-                    <?php
-                        if(isset($_SESSION['logeado'])){
-                            echo "<li><a class='enlace' href='USUARIO/logout.php'>Cerrar Sesión <span class='glyphicon glyphicon-log-out'></span></a></li>";
-                        }else{
-                            echo "<li><a class='enlace' href='USUARIO/sesionFormulario.php'>Iniciar Sesión <span class='glyphicon glyphicon-log-in'></span></a></li>";            
-                        }
-                    ?>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container-fluid text-center">
-        <div class="row content">
-            <div class="col-sm-12 text-center">
-                <h1>Bienvenido a Nozzleprint3D</h1>
-                <p>Bienvenido a la mejor red social que hay de modelos de objetos de impresoras 3D, aqui tendrás lo mejor de cada producto.</p>
+		    <!--Gender-->
+                    <input type="radio" name="usergender" value="M" id="malegender" class="usergender">
+                    <label>Hombre</label>
+                    <input type="radio" name="usergender" value="F" id="femalegender" class="usergender">
+                    <label>Mujer</label>
+                    <div class="required"></div>
+                    <br><br>
+                    <input type="submit" value="Crear Cuenta" name="register">
+                    <br>
+                </form>
             </div>
         </div>
     </div>
-
-    <footer class="container-fluid footer-inverse text-center">
-        <p>Pagina creada por David Beato y Carlos Rincón</p>
-    </footer>
-
+    <script src="resources/js/main.js"></script>
 </body>
-
 </html>
+
+<?php
+$conn = connect();
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { // Se publica un post
+    if (isset($_POST['login'])) { // Login
+        $useremail = $_POST['useremail'];
+        $userpass = md5($_POST['userpass']);
+        $query = mysqli_query($conn, "SELECT * FROM users WHERE user_email = '$useremail' AND user_password = '$userpass'");
+        if($query){
+            if(mysqli_num_rows($query) == 1) {
+                $row = mysqli_fetch_assoc($query);
+                $_SESSION['user_id'] = $row['user_id'];
+                $_SESSION['user_name'] = $row['user_firstname'] . " " . $row['user_lastname'];
+                header("location:home.php");
+            }
+            else {
+                ?> <script>
+                    document.getElementsByClassName("required")[0].innerHTML = "Credenciales invalidas";
+                    document.getElementsByClassName("required")[1].innerHTML = "Credenciales invalidas";
+                </script> <?php
+            }
+        } else{
+            echo mysqli_error($conn);
+        }
+    }
+    if (isset($_POST['register'])) { // Proceso de Registro
+        // Informacion Recibida
+        $userfirstname = $_POST['userfirstname'];
+        $userlastname = $_POST['userlastname'];
+        $usernickname = $_POST['usernickname'];
+        $userpassword = md5($_POST['userpass']);
+        $useremail = $_POST['useremail'];
+        $usergender = $_POST['usergender'];
+        // Es unico? Chequeamos
+        $query = mysqli_query($conn, "SELECT user_nickname, user_email FROM users WHERE user_nickname = '$usernickname' OR user_email = '$useremail'");
+        if(mysqli_num_rows($query) > 0){
+            $row = mysqli_fetch_assoc($query);
+            if($usernickname == $row['user_nickname'] && !empty($usernickname)){
+                ?> <script>
+                document.getElementsByClassName("required")[4].innerHTML = "Usuario ya Existe";
+                </script> <?php
+            }
+            if($useremail == $row['user_email']){
+                ?> <script>
+                document.getElementsByClassName("required")[7].innerHTML = "Correo ya Existe";
+                </script> <?php
+            }
+        }
+        // Insertar Usuario
+        $sql = "INSERT INTO users(user_firstname, user_lastname, user_nickname, user_password, user_email, user_gender)
+                VALUES ('$userfirstname', '$userlastname', '$usernickname', '$userpassword', '$useremail', '$usergender')";
+        $query = mysqli_query($conn, $sql);
+        if($query){
+            $query = mysqli_query($conn, "SELECT user_id FROM users WHERE user_email = '$useremail'");
+            $row = mysqli_fetch_assoc($query);
+            $_SESSION['user_id'] = $row['user_id'];
+            header("location:home.php");
+        }
+    }
+}
+?>
