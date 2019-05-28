@@ -19,9 +19,14 @@ $conn = connect();
 <head>
     <title>NoozlePrint3D</title>
     <link rel="stylesheet" type="text/css" href="resources/css/main.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container">
+        <div class="row">
+        <div class="cols-sm-12">
         <?php include 'includes/navbar.php'; ?>
         <br>
         <div class="createpost">
@@ -78,107 +83,85 @@ $conn = connect();
         if(!$query){
             echo mysqli_error($conn);
         }
-<!DOCTYPE html>
-
-<?php
-  require_once "../BBDD/model.php";
-  require_once "../BBDD/config.php";
-
-  $conexion = new Model(Config::$host, Config::$user, Config::$pass, Config::$nombreBase);
-	//Sesion
-    session_start ();
-    if(!isset($_SESSION["logeado"])){
-		header("Location: ../index.php");
-	}
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <title>NozzlePrint3D</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <style>
-    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: 1500px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-      background-color: #f1f1f1;
-      height: 100%;
-    }
-    
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height: auto;} 
-    }
-  </style>
-</head>
-<body>
-<div> 
-    <?php
-        include "../Inc/nav2.inc";
-    ?>
-</div>
-<div class="container-fluid">
-  <div class="row content">
-    <div class="col-sm-3 sidenav">
-      <?php
-        echo "<p>".$_SESSION['nombre']." ".$_SESSION['apellidos']."</p>";
-      ?>
-      <ul class="nav nav-pills nav-stacked">
-        <li id="perfil"><a href="../vistas/vistaUsuario.php">Perfil</a></li>
-        <li id="perfil"><a href="../vistas/CrearPostVista.php">Subir foto</a></li>
-		    <li id="perfil"><a href="../vistas/EditarPerfil.php">Editar Perfil</a></li>
-      </ul><br>
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search Blog..">
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="glyphicon glyphicon-search"></span>
-          </button>
-        </span>
-      </div>
-    </div>
-
-    <div class="col-sm-9">
-      <h4><small>RECENT POSTS</small></h4>
-      <hr>
-      <?php
-      //recogemos los amigos del usuario de la sesion
-        $amigos = $conexion->amigo($_SESSION['id_usuario']);
-        $nombresAmigos = $conexion->sacarNombre($amigos);
-        foreach ($nombresAmigos as $nombre) {
-          $cosasPost = $conexion->mostrarPost($nombre['id_usuario']);
-          foreach($cosasPost as $cosaPost){
-            if($cosaPost['foto_post'] != null || $cosaPost['descripcion'] != null){
-              echo "<p>".$nombre['nombre_usuario']."</p>";
-              echo "<img src='../data/images/posts/".$cosaPost['foto_post']."' alt='imagen'>";
-              echo "<p>".$cosaPost['descripcion']."</p>";
-            }
-          }
+        if(mysqli_num_rows($query) == 0){
+            echo '<div class="post">';
+            echo 'No tenemos Post que Mostrarte.';
+            echo '</div>';
         }
-      ?>
+        else{
+            $width = '40px'; //Redimensionar imagen perfil
+            $height = '40px';
+            while($row = mysqli_fetch_assoc($query)){
+                include 'includes/post.php';
+                echo '<br>';
+            }
+        }
+        ?>
+        <br><br><br>
+        </div>
+        </div>
     </div>
-  </div>
-</div>
-
-<footer class="container-fluid">
-  <p>Copyright NozzlePrint3D</p>
-</footer>
-
+	
+    <!--< Script para visualizar la imagen >-->
+    <script>
+        function showMyImage(fileInput) {
+        var files = fileInput.files;
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageType = /image.*/;
+            if (!file.type.match(imageType)) {
+            continue;
+            }
+            var img = document.getElementById("thumbnil");
+            img.file = file;
+            var reader = new FileReader();
+            reader.onload = (function (aImg) {
+            return function (e) {
+                aImg.src = e.target.result;
+            };
+            })(img);
+            reader.readAsDataURL(file);
+        }
+        }
+        // Validación de formularios
+        function validatePost(){
+            var required = document.getElementsByClassName("required");
+            var caption = document.getElementsByTagName("textarea")[0].value;
+            required[0].style.display = "none";
+            if(caption == ""){
+                required[0].style.display = "initial";
+                return false;
+            }
+            return true;
+        }
+    </script>
 </body>
 </html>
+
+<?php
+if($_SERVER['REQUEST_METHOD'] == 'POST') { // Formulario es publicado
+    // Asignar Variables
+    $caption = $_POST['caption'];
+    if(isset($_POST['public'])) {
+        $public = "Y";
+    } else {
+        $public = "N";
+    }
+    $poster = $_SESSION['user_id'];
+    // Insertar Query
+    $sql = "INSERT INTO posts (post_caption, post_public, post_time, post_by)
+            VALUES ('$caption', '$public', NOW(), $poster)";
+    $query = mysqli_query($conn, $sql);
+    // Acción en la consulta exitosa
+    if($query){
+        // Subir imagen de publicación Si se eligió un archivo
+        if (!empty($_FILES['fileUpload']['name'])) {
+            echo 'Mierda..';
+            // Recuperar ID de publicación
+            $last_id = mysqli_insert_id($conn);
+            include 'functions/upload.php';
+        }
+        header("location: home.php");
+    }
+}
+?>
