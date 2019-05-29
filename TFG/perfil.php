@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 require 'functions/functions.php';
 session_start();
 ob_start();
@@ -98,7 +98,7 @@ if(isset($_GET['id']) && $_GET['id'] != $_SESSION['user_id']) {
             $profilequery = mysqli_query($conn, $profilesql);
             $row = mysqli_fetch_assoc($profilequery);
             mysqli_data_seek($profilequery,0);
-            if(isset($row['friendship_status'])){// O un amigo o solicitado como amigo
+	    if(isset($row['friendship_status'])){// O un amigo o solicitado como amigo
                 if($row['friendship_status'] == 1){ //Amigo
                     $postsql = "SELECT posts.post_caption, posts.post_time, users.user_firstname, users.user_lastname,
                                         posts.post_public, users.user_id, users.user_gender, users.user_nickname,
@@ -175,19 +175,6 @@ if(isset($_GET['id']) && $_GET['id'] != $_SESSION['user_id']) {
                     </form>
                 </div>
                 <br>
-                <div class="profile">
-                    <center class="changeprofile">Añadir numero de teléfono</center>
-                    <br>
-                    <form method="post" onsubmit="return validateNumber()">
-                        <center>
-                            <input type="text" name="number" id="phonenum">
-                            <div class="required"></div>
-                            <br>
-                            <input type="submit" value="Submit" name="phone">
-                        </center>
-                    </form>
-                </div>
-                <br>
                 <?php } ?>
                 <?php
             }
@@ -200,18 +187,6 @@ function showPath(){
     var path = document.getElementById("selectedFile").value;
     path = path.replace(/^.*\\/, "");
     document.getElementById("path").innerHTML = path;
-}
-function validateNumber(){
-    var number = document.getElementById("phonenum").value;
-    var required = document.getElementsByClassName("required");
-    if(number == ""){
-        required[0].innerHTML = "Debe escribir su número";
-        return false;
-    } else if(isNaN(number)){
-        required[0].innerHTML = "Gracioso su numero de telefono solo puede tener numeros."
-        return false;
-    }
-    return true;
 }
 </script>
 </html>
@@ -235,12 +210,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') { //Se publica un formulario.
         if(!$query3){
             echo mysqli_error($conn);
         }
-    } else if(isset($_POST['phone'])) { // Añadir  numero de telefono a tu perfil
-        $sql3 = "INSERT INTO user_phone(user_id, user_phone) VALUES ({$_SESSION['user_id']},{$_POST['number']})";
-        $query3 = mysqli_query($conn, $sql3);
-        if(!$query3){
-            echo mysqli_error($conn);
-        } 
     }
     sleep(4);
 }
